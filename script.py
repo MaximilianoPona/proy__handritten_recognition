@@ -10,7 +10,7 @@ client = vision.ImageAnnotatorClient()
 # Folder with images
 FOLDER_PATH = r'sample_images'
 # Imagen de prueba
-IMAGE_FILE = r'img_2.jpeg'
+IMAGE_FILE = r'img_3.png'
 # Unimos ambos paths
 FILE_PATH = os.path.join(FOLDER_PATH, IMAGE_FILE)
 
@@ -23,6 +23,9 @@ with io.open(FILE_PATH, 'rb') as image_file:
 image = vision.types.Image(content=content)
 response = client.document_text_detection(image=image, image_context={'language_hints':['en']})
 docText = response.full_text_annotation.text
+
+# Reemplazamos los saltos de pagina por un espacio en blanco
+doc = docText.replace('\n', " ")
 
 # Hacemos un loop para analizar la confianza de los distintos simbolos y parrafos
 pages = response.full_text_annotation.pages
